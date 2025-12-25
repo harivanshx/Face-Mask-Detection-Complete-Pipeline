@@ -1,0 +1,64 @@
+name: Code Quality & Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  quality:
+    name: 🔍 Code Quality
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 black isort
+      
+      - name: 🎨 Check formatting with Black
+        run: black --check --diff src/ *.py || true
+      
+      - name: 📋 Check imports with isort
+        run: isort --check-only --diff src/ *.py || true
+      
+      - name: 🔎 Lint with flake8
+        run: |
+          flake8 src/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 src/ --count --exit-zero --max-line-length=127 --statistics
+
+  test-imports:
+    name: 🧪 Test Imports
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: 🐍 Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+      
+      - name: 📦 Install dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: 🧪 Test module imports
+        run: |
+          echo "Testing imports..."
+          python -c "from src.config import *; print('✅ config.py OK')"
+          python -c "from src.model import build_model; print('✅ model.py OK')"
+          python -c "from src.dataset import build_datasets; print('✅ dataset.py OK')"
+          echo "✅ All imports successful!"
