@@ -14,6 +14,7 @@ mask_weared_incorrect
 
 # Done
 -  Getting the dataset from kaggle
+- Downloaded the dataset and found out the dataset is already annotated so will be moving to the next task which is to divide the data into train test and validation split
 
 
 
