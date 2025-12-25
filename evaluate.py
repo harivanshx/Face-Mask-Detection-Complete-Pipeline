@@ -40,6 +40,18 @@ def evaluate_model():
         print("   Trying to load full model...")
         model = tf.keras.models.load_model(MODEL_SAVE_PATH)
     
+    # Compile model for evaluation
+    model.compile(
+        optimizer=tf.keras.optimizers.Adam(1e-4),
+        loss={
+            "bbox": "mse",
+            "class": "categorical_crossentropy"
+        },
+        metrics={
+            "class": ["accuracy"]
+        }
+    )
+    
     # Evaluate
     print("\n📈 Running evaluation...")
     print("-" * 60)
