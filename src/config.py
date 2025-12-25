@@ -26,7 +26,7 @@ CLASS_NAMES = ["with_mask", "without_mask", "mask_weared_incorrect"]
 
 # Training configuration
 BATCH_SIZE = 32
-EPOCHS = 50
+EPOCHS = 20
 LEARNING_RATE = 1e-4
 EARLY_STOPPING_PATIENCE = 7
 REDUCE_LR_PATIENCE = 3
